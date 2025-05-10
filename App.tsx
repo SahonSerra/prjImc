@@ -8,12 +8,12 @@ export default function App() {
   const [peso,setPeso] = useState(''); // get/set do mobile(formato de estado)
   const [altura, setAltura] = useState('');
   const [resultado, setResultado] = useState('');
-  
 
- 
-
- 
-
+  function limpar(){
+    setPeso('');
+    setAltura('');
+    setResultado('');
+  }  
 
   function calcularImc(){
     let alturaEmMetro = parseFloat(altura) /100;
@@ -21,13 +21,25 @@ export default function App() {
     setResultado("Valor do IMC: " +result.toFixed(2));
 
     let msg ="";
-    
+       
     if(result <18.5){
-      msg ="abaixo do peso!";
-      
+      msg ="abaixo do peso!";    
+    }else if (result >18.5 && result<24.99){
+      msg="peso ideal!";
+    }else if(result >25 && result<29.99){
+      msg="Levemente acima do peso!"
+    }else if(result >30 && result<34.99){
+      msg="Obesidade grau I";
+    }else if(result >35 && result<39.99){
+      msg="Obesidade grau II(severa)";
+    }else if(result >40){
+      msg="Obesidade grau III(mórbida)";
     }
+    
+
     setResultado("Valor do IMC: " +result.toFixed(2) +" "+ msg);
-  }
+  } 
+  
 
   return (
     <View style={styles.container}>
@@ -58,9 +70,16 @@ export default function App() {
           </TouchableOpacity>  
       </View>
       <View style={styles.bloco}>
+          <TouchableOpacity style={styles.btn} onPress={limpar} >
+              <Text style={styles.btnTxt}>Limpar</Text>
+          </TouchableOpacity>  
+      </View>
+      
+      <View style={styles.bloco}>
       <Text style={styles.titulo}>{resultado}</Text>
 
       </View>
+      
     </View>
   );
 }
