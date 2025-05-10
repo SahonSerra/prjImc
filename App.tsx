@@ -1,9 +1,32 @@
+import { useState } from 'react'; // Primeira linha
 import { StyleSheet, Text, TextInput, View, TouchableOpacity } from 'react-native';
+
+
 
 export default function App() {
 
+  const [peso,setPeso] = useState(''); // get/set do mobile(formato de estado)
+  const [altura, setAltura] = useState('');
+  const [resultado, setResultado] = useState('');
+  
+
+ 
+
+ 
+
+
   function calcularImc(){
-    alert("Calculo do IMC");
+    let alturaEmMetro = parseFloat(altura) /100;
+    let result = parseFloat(peso) /(alturaEmMetro * alturaEmMetro);
+    setResultado("Valor do IMC: " +result.toFixed(2));
+
+    let msg ="";
+    
+    if(result <18.5){
+      msg ="abaixo do peso!";
+      
+    }
+    setResultado("Valor do IMC: " +result.toFixed(2) +" "+ msg);
   }
 
   return (
@@ -15,6 +38,8 @@ export default function App() {
           <TextInput 
             style={styles.input}
             keyboardType='numeric'
+            value={peso}
+            onChangeText={(valor)=>setPeso(valor)} 
           />
       </View>
       <View style={styles.bloco}>
@@ -22,13 +47,19 @@ export default function App() {
           <TextInput 
             style={styles.input}
             keyboardType='numeric'
+            value={altura}
+            onChangeText={(valor)=>setAltura(valor)}
             
           />
       </View>
       <View style={styles.bloco}>
           <TouchableOpacity style={styles.btn} onPress={calcularImc} >
               <Text style={styles.btnTxt}>Calcular</Text>
-          </TouchableOpacity>
+          </TouchableOpacity>  
+      </View>
+      <View style={styles.bloco}>
+      <Text style={styles.titulo}>{resultado}</Text>
+
       </View>
     </View>
   );
@@ -37,11 +68,11 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ccc',
+    backgroundColor: 'whitesmoke',
   },
   titulo:{
     textAlign:'center',
-    
+
     fontSize:30,
     marginTop:80
   },
@@ -60,11 +91,15 @@ const styles = StyleSheet.create({
     marginLeft:'10%',
     borderWidth:1,
     borderRadius:10
+
   },
   btn:{
     width:'80%',
     marginLeft:'10%',
-    backgroundColor:'#000'
+    backgroundColor:'green',
+    borderRadius:10
+
+    
   },
   btnTxt:{
     fontSize:30,
